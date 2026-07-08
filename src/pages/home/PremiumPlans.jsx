@@ -1,4 +1,6 @@
+
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function PremiumPlans() {
 
@@ -112,11 +114,12 @@ function PremiumPlans() {
                             ))}
                         </div>
 
-                        <button
-                            className={`w-full mt-10 py-3 rounded-xl text-white text-sm font-medium transition hover:opacity-90 ${plan.button}`}
-                        >
-                            Choose Plan
-                        </button>
+                  <Link
+  to="/premium-plans"
+  className={`block w-full mt-10 py-3 rounded-xl text-center text-white text-sm font-medium transition hover:opacity-90 ${plan.button}`}
+>
+  Choose Plan
+</Link>
                     </div>
                 ))}
             </div>
