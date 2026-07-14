@@ -45,4 +45,4 @@ jobs:
           docker run -d -p 5174:80 \
           --name geswa-frontend-service \
           --restart unless-stopped \
-          ${{ secrets.DOCKER_USERNAME }}/geswa-frontend:${{ github.sha }}`
+          ${{ secrets.DOCKER_USERNAME }}/geswa-frontend:${{ github.sha }}
