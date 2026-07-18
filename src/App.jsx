@@ -32,14 +32,16 @@ import CoordinatorData from './pages/coodinator/CoordinatorData'
 import PremiumBuyerData from './pages/coodinator/PremiumBuyerData'
 import { useDispatch, useSelector } from 'react-redux'
 import { verifiedUser } from './reduxStore/slice/userSlice'
+import HospitalDashbaord from './pages/hospital/HospitalDashbaord'
+import PremiumPurchase from './components/common/PremiumPurchase'
 
 function App() {
-const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
   const { loginUserData, isloginLoading, authChecked } = useSelector(
     (state) => state.user
   );
-// useSelector
+  // useSelector
 
   useEffect(() => {
     if (!authChecked) {
@@ -49,18 +51,18 @@ const dispatch=useDispatch()
 
   // verifiedUser
   // loading
-if (!authChecked || isloginLoading) {
-  return (
-    <div className="p-6 space-y-4">
-      <div className="h-8 w-48 bg-gray-200 rounded animate-pulse"></div>
+  if (!authChecked || isloginLoading) {
+    return (
+      <div className="p-6 space-y-4">
+        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse"></div>
 
-      <div className="h-40 w-full bg-gray-200 rounded-lg animate-pulse"></div>
+        <div className="h-40 w-full bg-gray-200 rounded-lg animate-pulse"></div>
 
-      <div className="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
-      <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"></div>
-    </div>
-  );
-}
+        <div className="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
+        <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -84,17 +86,19 @@ if (!authChecked || isloginLoading) {
         <Route path='/help-center' element={<HelpCenter />} />
         <Route path='/partners' element={<PartnerMain />} />
         <Route path='/partners-details/:id' element={<PartnerDetail />} />
-        <Route path='/premium-plans' element={<PremiumMain />} />
+        <Route path='/premium-plans/:id' element={<PremiumMain />} />
+        <Route path='/premium-purchase/:id' element={<PremiumPurchase />} />
+
         <Route path='/forget-password' element={<Forget />} />
         <Route path='/verify-otp' element={<Verify />} />
         <Route path='/reset-password' element={<Reset />} />
 
         <Route path='/not-found' element={<Notfound />} />
 
-
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route element={<ProtectRoute allowedRoles={['EMPLOYEE']} />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path='/hospital' element={<HospitalData />} />
+          {/* <Route path='/hospital' element={<HospitalData />} /> */}
           <Route path='/coodinator' element={<CoordinatorData />} />
           <Route path='/buyer' element={<PremiumBuyerData />} />
 
@@ -102,6 +106,11 @@ if (!authChecked || isloginLoading) {
 
         <Route element={<ProtectRoute allowedRoles={['MEMBER']} />}>
           <Route path="/user" element={<UserDashboard />} />
+        </Route>
+
+        <Route element={<ProtectRoute allowedRoles={['HOSPITAL']} />}>
+          <Route path="/hospital" element={<HospitalDashbaord />} />
+          {/* <Route path='/premium-purchase/:id' element={<PremiumPurchase />} /> */}
         </Route>
       </Routes>
 

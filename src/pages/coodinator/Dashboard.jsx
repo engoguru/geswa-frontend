@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../../components/layout/dashboard/Sidebar'
 import Header from '../../components/layout/dashboard/Header'
 
@@ -7,45 +7,55 @@ import {
   Hospital,
   Wallet,
   TrendingUp,
-  Download
+  Download,
+  BadgeCheck,
+  Crown,
+  IndianRupee
 } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { verifiedUser } from '../../reduxStore/slice/userSlice'
+import { getMemberPlans } from '../../reduxStore/slice/memberplanSlice'
+
+import { Copy } from "lucide-react";
+import { toast } from "react-toastify";
+import { getAllPurchasePlanByemployeeId } from '../../reduxStore/slice/premiumPurchaseSlice'
 
 function Dashboard() {
   const dispatch = useDispatch()
   const { loginUserData } = useSelector((state) => state?.user)
 
-
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [searchPlan, setSearchPlan] = useState("");
   // useEffect
-  console.log(loginUserData, "n")
-  // useSelector
-  const stats = [
-    {
-      title: "Total Members",
-      value: "48,290",
-      growth: "+8.2%",
-      icon: <Users size={22} />
-    },
-    {
-      title: "This Month Enroll",
-      value: "1,284",
-      growth: "+21%",
-      icon: <TrendingUp size={22} />
-    },
-    {
-      title: "Active Hospitals",
-      value: "312",
-      growth: "+9%",
-      icon: <Hospital size={22} />
-    },
-    {
-      title: "Member Savings",
-      value: "₹2.84 Cr",
-      growth: "+14%",
-      icon: <Wallet size={22} />
+  // console.log(loginUserData, "n")
+
+
+  const { plans, loading } = useSelector(
+    (state) => state.memberPlan
+  );
+
+
+  const { purchaseEmployee } = useSelector(
+    (state) => state.memberPurchase
+  );
+  useEffect(() => {
+    dispatch(
+      getMemberPlans({
+        page: 1,
+        limit: 20,
+        searchPlan
+      })
+    );
+  }, [dispatch, searchPlan]);
+  const employee = loginUserData?.user?.employee;
+  useEffect(() => {
+    if (employee?.employeeId) {
+      dispatch(getAllPurchasePlanByemployeeId(employee.employeeId));
     }
-  ]
+  }, [dispatch, employee?.employeeId]);
+
+  // useSelector
+ 
 
   const coordinators = [
     {
@@ -81,7 +91,63 @@ function Dashboard() {
       status: "On Track"
     }
   ]
-  const employee = loginUserData?.user?.employee;
+  // const employee = loginUserData?.user?.employee;
+
+  const handleCopyLink = () => {
+    if (!selectedPlan) return;
+
+    const employeeId = loginUserData?.employee?.employeeId
+      ;
+
+    if (!employeeId) {
+      toast.error("Employee id not found");
+      return;
+    }
+
+    const link = `${window.location.origin}/premium-purchase/${selectedPlan.id}?ref=${employeeId}`;
+
+    navigator.clipboard.writeText(link);
+
+    toast.success("Referral link copied");
+  };
+
+  const purchases = purchaseEmployee || [];
+
+  // Stats calculation
+  const stats = [
+    {
+      title: "Total Members",
+      value: purchases.length,
+      growth: "All time",
+      icon: <Users size={25} />,
+    },
+    {
+      title: "Active Membership",
+      value: purchases.filter(
+        (item) => item.status === "ACTIVE"
+      ).length,
+      growth: "Currently active",
+      icon: <BadgeCheck size={25} />,
+    },
+    {
+      title: "Total Revenue",
+      value: `₹${purchases.reduce(
+        (sum, item) => sum + Number(item.amountPaid),
+        0
+      )}`,
+      growth: "Generated",
+      icon: <IndianRupee size={25} />,
+    },
+    {
+      title: "Plans Sold",
+      value: new Set(
+        purchases.map((item) => item.membershipId)
+      ).size,
+      growth: "Different plans",
+      icon: <Crown size={25} />,
+    },
+  ];
+  console.log(purchaseEmployee)
   return (
     <div className="flex bg-[#f4f7fb] min-h-screen">
 
@@ -113,16 +179,132 @@ function Dashboard() {
             </p>
           </div>
 
+
+          {/* Referral Link Generator */}
+
+          <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm mt-6">
+
+            <h2 className="text-xl font-bold text-black">
+              Generate Membership Referral Link
+            </h2>
+
+            <p className="text-sm text-gray-500 mt-1">
+              Select membership plan and share link with customers
+            </p>
+
+
+            {/* Search */}
+            <input
+              type="text"
+              value={searchPlan}
+              onChange={(e) => setSearchPlan(e.target.value)}
+              placeholder="Search plan..."
+              className="w-full mt-5 border rounded-xl px-4 py-3 outline-none"
+            />
+
+
+            {/* Plan Options */}
+            {searchPlan && (
+              <div className="border rounded-xl mt-2 max-h-52 overflow-y-auto">
+
+                {plans
+                  ?.filter((plan) =>
+                    plan.name
+                      .toLowerCase()
+                      .includes(searchPlan.toLowerCase())
+                  )
+                  .map((plan) => (
+
+                    <div
+                      key={plan.id}
+                      onClick={() => {
+                        setSelectedPlan(plan);
+                        setSearchPlan(plan.name);
+                      }}
+                      className="p-4 hover:bg-gray-100 cursor-pointer"
+                    >
+
+                      <p className="font-semibold">
+                        {plan.name}
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        ₹{plan.price} • {plan.duration} Months
+                      </p>
+
+                    </div>
+
+                  ))}
+
+              </div>
+            )}
+
+
+
+            {/* Selected Plan */}
+            {selectedPlan && (
+
+              <div className="mt-5 bg-gray-50 rounded-2xl p-5">
+
+                <h3 className="text-lg font-bold">
+                  {selectedPlan.name}
+                </h3>
+
+
+                <p className="text-gray-600 mt-2">
+                  {selectedPlan.description}
+                </p>
+
+
+                <div className="flex gap-10 mt-4">
+
+                  <div>
+                    <p className="text-sm text-gray-500">
+                      Price
+                    </p>
+
+                    <p className="font-bold text-primary">
+                      ₹{selectedPlan.price}
+                    </p>
+                  </div>
+
+
+                  <div>
+                    <p className="text-sm text-gray-500">
+                      Duration
+                    </p>
+
+                    <p className="font-bold">
+                      {selectedPlan.duration} Months
+                    </p>
+                  </div>
+
+                </div>
+
+
+                <button
+                  onClick={handleCopyLink}
+                  className="mt-5 bg-primary text-white px-5 py-3 rounded-xl"
+                >
+                  Copy Referral Link
+                </button>
+
+              </div>
+
+            )}
+
+          </div>
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mt-6">
 
             {stats.map((item, index) => (
+
               <div
                 key={index}
-                className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm"
+                className="bg-white rounded-3xl p-6 border shadow-sm"
               >
 
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between items-center">
 
                   <div>
 
@@ -130,21 +312,30 @@ function Dashboard() {
                       {item.title}
                     </p>
 
-                    <h2 className="text-3xl font-bold text-black mt-3">
+
+                    <h2 className="text-3xl font-bold mt-3">
                       {item.value}
                     </h2>
 
-                    <span className="text-green-600 text-sm font-medium mt-2 block">
-                      {item.growth} this month
+
+                    <span className="text-green-600 text-sm">
+                      {item.growth}
                     </span>
+
                   </div>
+
 
                   <div className="w-14 h-14 rounded-2xl bg-primary text-white flex items-center justify-center">
                     {item.icon}
                   </div>
+
+
                 </div>
+
               </div>
+
             ))}
+
           </div>
 
           {/* Charts */}
@@ -242,102 +433,203 @@ function Dashboard() {
           </div>
 
           {/* Table */}
-          <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm mt-6">
+          <div className="bg-white rounded-3xl p-6 border shadow-sm mt-6">
 
-            <div className="flex items-center justify-between">
 
-              <div>
-                <h2 className="text-xl font-bold text-black">
-                  Block Coordinator Performance
-                </h2>
+            <div className="mb-6">
 
-                <p className="text-sm text-gray-500 mt-1">
-                  District healthcare performance overview
-                </p>
-              </div>
+              <h2 className="text-xl font-bold">
+                Members Purchased Membership
+              </h2>
 
-              <button className="border border-primary text-primary px-5 py-2 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-primary hover:text-white transition">
-                <Download size={16} />
-                Export CSV
-              </button>
+              <p className="text-sm text-gray-500">
+                Customers onboarded by this employee
+              </p>
+
             </div>
 
-            <div className="overflow-x-auto mt-8">
+
+
+            <div className="overflow-x-auto">
 
               <table className="w-full">
 
                 <thead>
-                  <tr className="text-left border-b border-gray-200">
 
-                    <th className="pb-4 text-sm font-semibold text-gray-500">
-                      Block
+                  <tr className="border-b">
+
+                    <th className="text-left pb-4 text-gray-500">
+                      Member
                     </th>
 
-                    <th className="pb-4 text-sm font-semibold text-gray-500">
-                      Coordinator
+
+                    <th className="text-left pb-4 text-gray-500">
+                      Plan
                     </th>
 
-                    <th className="pb-4 text-sm font-semibold text-gray-500">
-                      Members
+
+                    <th className="text-left pb-4 text-gray-500">
+                      Amount
                     </th>
 
-                    <th className="pb-4 text-sm font-semibold text-gray-500">
-                      Hospitals
+
+                    <th className="text-left pb-4 text-gray-500">
+                      Payment
                     </th>
 
-                    <th className="pb-4 text-sm font-semibold text-gray-500">
-                      Savings
+
+                    <th className="text-left pb-4 text-gray-500">
+                      Validity
                     </th>
 
-                    <th className="pb-4 text-sm font-semibold text-gray-500">
+
+                    <th className="text-left pb-4 text-gray-500">
                       Status
                     </th>
+
                   </tr>
+
                 </thead>
+
 
                 <tbody>
 
-                  {coordinators.map((item, index) => (
+
+                  {purchases.map((item) => (
+
                     <tr
-                      key={index}
-                      className="border-b border-gray-100 hover:bg-gray-50 transition"
+                      key={item.id}
+                      className="border-b hover:bg-gray-50"
                     >
 
-                      <td className="py-5 font-semibold">
-                        {item.block}
-                      </td>
-
-                      <td className="py-5">
-                        {item.name}
-                      </td>
-
-                      <td className="py-5">
-                        {item.members}
-                      </td>
-
-                      <td className="py-5">
-                        {item.hospitals}
-                      </td>
-
-                      <td className="py-5">
-                        {item.savings}
-                      </td>
 
                       <td className="py-5">
 
-                        <span className={`px-4 py-1 rounded-full text-xs font-semibold ${item.status === "Behind"
-                            ? "bg-red-100 text-red-600"
-                            : "bg-green-100 text-green-600"
-                          }`}>
-                          {item.status}
+                        <div>
+
+                          <p className="font-semibold">
+                            {item.user.name}
+                          </p>
+
+                          <p className="text-sm text-gray-500">
+                            {item.user.contact}
+                          </p>
+
+
+                          <p className="text-xs text-gray-400">
+                            {item.user.email}
+                          </p>
+
+
+                        </div>
+
+                      </td>
+
+
+
+                      <td className="py-5">
+
+                        <p className="font-semibold">
+                          {item.membership.name}
+                        </p>
+
+                        <p className="text-sm text-gray-500">
+                          {item.membership.durationValue} {item.membership.durationUnit}
+                        </p>
+
+
+                      </td>
+
+
+
+                      <td className="py-5">
+
+                        <span className="font-bold text-green-600">
+                          ₹{item.amountPaid}
                         </span>
+
                       </td>
+
+
+
+                      <td className="py-5">
+
+
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+
+                          {item.paymentStatus}
+
+                        </span>
+
+
+                      </td>
+
+
+
+                      <td className="py-5">
+
+                        <p className="text-sm">
+
+                          {new Date(
+                            item.startDate
+                          ).toLocaleDateString()}
+
+                        </p>
+
+
+                        <p className="text-xs text-gray-500">
+
+                          to
+
+                          {" "}
+
+                          {new Date(
+                            item.endDate
+                          ).toLocaleDateString()}
+
+                        </p>
+
+
+                      </td>
+
+
+
+                      <td className="py-5">
+
+
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold
+${item.status === "ACTIVE"
+                              ?
+                              "bg-blue-100 text-blue-600"
+                              :
+                              "bg-red-100 text-red-600"
+                            }
+`}
+                        >
+
+                          {item.status}
+
+                        </span>
+
+
+                      </td>
+
+
+
                     </tr>
+
                   ))}
 
+
                 </tbody>
+
+
               </table>
+
             </div>
+
+
           </div>
         </div>
       </div>

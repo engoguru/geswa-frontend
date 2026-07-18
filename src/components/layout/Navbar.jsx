@@ -60,14 +60,16 @@ export default function Navbar() {
                     {/* Desktop Buttons */}
                     <div className="hidden md:flex items-center gap-4">
                         <button className="bg-black hover:bg-gray-800 text-white text-sm px-5 py-2 rounded-xl font-medium transition">
-                            {loginUserData?.user ? (
+                            {loginUserData?.user && loginUserData.user.role !== "ADMIN" ? (
                                 <Link
                                     to={
                                         loginUserData.user.role === "MEMBER"
                                             ? "/user"
                                             : loginUserData.user.role === "EMPLOYEE"
                                                 ? "/dashboard"
-                                                : "/"
+                                                : loginUserData.user.role === "HOSPITAL"
+                                                    ? "/hospital"
+                                                    : "/"
                                     }
                                 >
                                     Dashboard

@@ -36,17 +36,17 @@ const{loginUserData}=useSelector((state)=>state?.user)
         <div className="flex items-center gap-3">
 
           <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center font-bold">
-            {loginUserData?.user.name[0]}
+            {loginUserData?.user?.name[0]}
           </div>
 
           <div>
 
             <h3 className="text-sm font-semibold">
-            {loginUserData?.user.name}
+            {loginUserData?.user?.name}
             </h3>
 
             <p className="text-xs text-gray-500">
-             {loginUserData?.user?.employee.role}
+             {loginUserData?.user?.employee?.role}
             </p>
           </div>
         </div>

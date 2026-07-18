@@ -30,25 +30,45 @@ function SignIn() {
             setSubmit(true)
             const response = await dispatch(loginUser(form)).unwrap();
             console.log(response, ";")
-             if (response?.success) {
-            toast.success(response.message);
+            if (response?.success) {
+                toast.success(response.message);
 
-            const role = response?.user?.role?.toUpperCase();
+                const role = response?.user?.role?.toUpperCase();
 
-            if (role === "EMPLOYEE") {
-                navigate("/dashboard");
-            } else if (role === "MEMBER") {
-                navigate("/user");
-            } else {
-                navigate("/not-found");
+                if (role === "EMPLOYEE") {
+                    navigate("/dashboard");
+                } else if (role === "MEMBER") {
+
+                    const redirectUrl = localStorage.getItem(
+                        "purchaseUrlGS"
+                    );
+
+                    if (redirectUrl) {
+
+                        localStorage.removeItem(
+                            "purchaseUrlGS"
+                        );
+
+                        navigate(redirectUrl);
+
+                    } else {
+
+                        navigate("/user");
+
+                    }
+                }
+                else if (role === "HOSPITAL") {
+                    navigate("/hospital");
+                } else {
+                    navigate("/not-found");
+                }
             }
-        }
-           setForm({
-            email: "",
-            password: ""
-        });
+            setForm({
+                email: "",
+                password: ""
+            });
 
-        setSubmit(false);
+            setSubmit(false);
         } catch (error) {
             console.log(error);
             toast.error(error || "Something went wrong");
@@ -269,7 +289,7 @@ function SignIn() {
                                         type="submit"
                                         className="w-full bg-primary hover:bg-primary-600 transition-all duration-300 text-white py-3 rounded-2xl text-sm font-semibold"
                                     >
-                                       {submit===true?<>processing</>:<>Sign In</>} 
+                                        {submit === true ? <>processing</> : <>Sign In</>}
                                     </button>
                                 </form>
 

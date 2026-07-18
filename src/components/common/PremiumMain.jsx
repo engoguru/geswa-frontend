@@ -1,347 +1,377 @@
-import React, { useState } from 'react'
-import Navbar from '../layout/Navbar'
-import Footer from '../layout/Footer'
-
-function PremiumMain() {
-
-    const plans = [
-        {
-            id: 1,
-            name: "Basic",
-            price: "₹990",
-            duration: "/year",
-            desc: "Perfect healthcare membership for individuals.",
-            color: "border-gray-200",
-            button: "bg-black",
-            features: [
-                "1 Member Coverage",
-                "Up to 20% Hospital Discount",
-                "Digital Membership Card",
-                "24/7 Customer Support",
-                "Basic Health Assistance"
-            ],
-            details: {
-                coverage: "Individual",
-                hospitals: "5,000+ Hospitals",
-                emergency: "Basic Emergency Support",
-                consultation: "General Consultation",
-                cashback: "5% Cashback"
-            }
-        },
-        {
-            id: 2,
-            name: "Family",
-            price: "₹1990",
-            duration: "/year",
-            desc: "Best value plan for complete family healthcare.",
-            color: "border-primary border-2",
-            button: "bg-primary",
-            popular: true,
-            features: [
-                "5 Members Coverage",
-                "Up to 60% Hospital Discount",
-                "Priority Support",
-                "Emergency Assistance",
-                "Health Checkup Benefits"
-            ],
-            details: {
-                coverage: "Family Coverage",
-                hospitals: "18,000+ Hospitals",
-                emergency: "24/7 Emergency Support",
-                consultation: "Specialist Consultation",
-                cashback: "15% Cashback"
-            }
-        },
-        {
-            id: 3,
-            name: "Premium",
-            price: "₹3990",
-            duration: "/year",
-            desc: "Advanced healthcare services with premium support.",
-            color: "border-gray-200",
-            button: "bg-black",
-            features: [
-                "Unlimited Family Members",
-                "Maximum Discount Benefits",
-                "Dedicated Health Advisor",
-                "VIP Hospital Support",
-                "Premium Wellness Services"
-            ],
-            details: {
-                coverage: "Unlimited Family",
-                hospitals: "All Premium Hospitals",
-                emergency: "Dedicated Emergency Team",
-                consultation: "VIP Specialist Access",
-                cashback: "25% Cashback"
-            }
-        }
-    ]
-
-    const [selectedPlan, setSelectedPlan] = useState(plans[1])
-
-    return (
-        <>
-        <Navbar/>
-        <div className="bg-gray-50 min-h-screen py-16">
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-                {/* Heading */}
-                <div className="text-center">
-
-                    <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-xs font-medium">
-                        Premium Membership Plans
-                    </span>
-
-                    <h1 className="text-4xl sm:text-5xl font-bold text-black mt-6 leading-tight">
-                        Choose Your Healthcare Plan
-                    </h1>
-
-                    <p className="text-gray-500 mt-5 max-w-2xl mx-auto leading-8">
-                        Select the perfect healthcare membership plan
-                        designed for your medical and family needs.
-                    </p>
-                </div>
-
-                {/* Plans */}
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-16">
-
-                    {plans.map((plan) => (
-
-                        <div
-                            key={plan.id}
-                            onClick={() => setSelectedPlan(plan)}
-                            className={`relative bg-white rounded-3xl p-8 shadow-sm cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
-                                selectedPlan.id === plan.id
-                                    ? 'border-2 border-primary shadow-2xl scale-[1.02]'
-                                    : 'border border-gray-200'
-                            }`}
-                        >
-
-                            {/* Popular */}
-                            {plan.popular && (
-                                <span className="absolute top-5 right-5 bg-primary text-white text-[10px] px-3 py-1 rounded-full">
-                                    MOST POPULAR
-                                </span>
-                            )}
-
-                            {/* Selected Badge */}
-                            {selectedPlan.id === plan.id && (
-                                <div className="absolute top-5 left-5 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white text-xs">
-                                    ✓
-                                </div>
-                            )}
-
-                            <h2 className="text-3xl font-bold text-black mt-4">
-                                {plan.name}
-                            </h2>
-
-                            <div className="mt-6">
-
-                                <span className="text-5xl font-bold text-black">
-                                    {plan.price}
-                                </span>
-
-                                <span className="text-gray-500 ml-2">
-                                    {plan.duration}
-                                </span>
-                            </div>
-
-                            <p className="text-gray-500 leading-7 mt-5">
-                                {plan.desc}
-                            </p>
-
-                            {/* Features */}
-                            <div className="space-y-4 mt-8">
-
-                                {plan.features.map((feature, index) => (
-
-                                    <div
-                                        key={index}
-                                        className="flex items-center gap-4"
-                                    >
-
-                                        <div className="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">
-                                            ✓
-                                        </div>
-
-                                        <p className="text-sm text-gray-700">
-                                            {feature}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <button
-                                className={`w-full mt-10 py-4 rounded-2xl text-white text-sm font-medium transition ${
-                                    selectedPlan.id === plan.id
-                                        ? 'bg-primary'
-                                        : 'bg-black hover:bg-gray-800'
-                                }`}
-                            >
-                                {selectedPlan.id === plan.id
-                                    ? 'Selected Plan'
-                                    : 'Choose Plan'}
-                            </button>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Detailed Plan */}
-                <div className="bg-white rounded-3xl shadow-xl p-8 sm:p-10 mt-20 border border-gray-100">
-
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-
-                        {/* Left */}
-                        <div>
-
-                            <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-xs font-medium">
-                                Selected Plan
-                            </span>
-
-                            <h2 className="text-3xl sm:text-4xl font-bold text-black mt-6">
-                                {selectedPlan.name} Membership
-                            </h2>
-
-                            <p className="text-gray-500 mt-5 leading-8 max-w-2xl">
-                                {selectedPlan.desc}
-                            </p>
-                        </div>
-
-                        {/* Price */}
-                        <div className="bg-gray-100 rounded-3xl px-10 py-8 text-center min-w-[240px]">
-
-                            <h3 className="text-5xl font-bold text-primary">
-                                {selectedPlan.price}
-                            </h3>
-
-                            <p className="text-gray-500 mt-3">
-                                Per Year Membership
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Details */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 mt-14">
-
-                        <div className="bg-gray-50 rounded-2xl p-6">
-
-                            <p className="text-xs uppercase tracking-wide text-gray-400">
-                                Coverage
-                            </p>
-
-                            <h3 className="text-lg font-semibold mt-3">
-                                {selectedPlan.details.coverage}
-                            </h3>
-                        </div>
-
-                        <div className="bg-gray-50 rounded-2xl p-6">
-
-                            <p className="text-xs uppercase tracking-wide text-gray-400">
-                                Hospitals
-                            </p>
-
-                            <h3 className="text-lg font-semibold mt-3">
-                                {selectedPlan.details.hospitals}
-                            </h3>
-                        </div>
-
-                        <div className="bg-gray-50 rounded-2xl p-6">
-
-                            <p className="text-xs uppercase tracking-wide text-gray-400">
-                                Emergency
-                            </p>
-
-                            <h3 className="text-lg font-semibold mt-3">
-                                {selectedPlan.details.emergency}
-                            </h3>
-                        </div>
-
-                        <div className="bg-gray-50 rounded-2xl p-6">
-
-                            <p className="text-xs uppercase tracking-wide text-gray-400">
-                                Consultation
-                            </p>
-
-                            <h3 className="text-lg font-semibold mt-3">
-                                {selectedPlan.details.consultation}
-                            </h3>
-                        </div>
-
-                        <div className="bg-gray-50 rounded-2xl p-6">
-
-                            <p className="text-xs uppercase tracking-wide text-gray-400">
-                                Cashback
-                            </p>
-
-                            <h3 className="text-lg font-semibold mt-3 text-primary">
-                                {selectedPlan.details.cashback}
-                            </h3>
-                        </div>
-                    </div>
-
-                    {/* Bottom CTA */}
-                    <div className="bg-primary rounded-3xl p-8 sm:p-10 mt-16 text-white">
-
-                        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-
-                            <div>
-
-                                <h2 className="text-3xl font-bold">
-                                    Need Specialized Assistance?
-                                </h2>
-
-                                <p className="text-white/80 mt-5 leading-8 max-w-2xl">
-                                    Our healthcare advisors are available to help
-                                    you choose the best membership plan according
-                                    to your medical and family requirements.
-                                </p>
-                            </div>
-
-                            {/* Contact */}
-                            <div className="bg-white text-black rounded-3xl p-8 min-w-[300px] shadow-2xl">
-
-                                <h3 className="text-xl font-bold">
-                                    Contact Specialist
-                                </h3>
-
-                                <div className="mt-6 space-y-5">
-
-                                    <div>
-
-                                        <p className="text-xs uppercase tracking-wide text-gray-400">
-                                            Phone
-                                        </p>
-
-                                        <h4 className="font-semibold mt-2">
-                                            +91 9973974560
-                                        </h4>
-                                    </div>
-
-                                    <div>
-
-                                        <p className="text-xs uppercase tracking-wide text-gray-400">
-                                            Email
-                                        </p>
-
-                                        <h4 className="font-semibold mt-2">
-                                           geswango2021@gmail.com
-                                        </h4>
-                                    </div>
-
-                                    <button className="w-full bg-primary hover:opacity-90 transition text-white py-4 rounded-2xl text-sm font-medium mt-3">
-                                        Request Callback
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <Footer/>
-        </>
-    )
+import React,{useEffect,useState} from "react";
+import Navbar from "../layout/Navbar";
+import Footer from "../layout/Footer";
+import {useDispatch,useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
+import {getMemberPlans,getOneMemberPlan} from "../../reduxStore/slice/memberplanSlice";
+import { useNavigate } from "react-router-dom";
+function PremiumMain(){
+
+
+const navigate = useNavigate();
+const dispatch=useDispatch();
+const [searchParams,setSearchParams]=useSearchParams();
+
+const {plans,currentPlan,loading}=useSelector(state=>state.memberPlan);
+
+const id=searchParams.get("id");
+const [selectedPlan,setSelectedPlan]=useState(null);
+
+
+useEffect(()=>{
+    dispatch(getMemberPlans({page:1,limit:100}));
+},[dispatch]);
+
+
+useEffect(()=>{
+    if(id) dispatch(getOneMemberPlan(id));
+},[id,dispatch]);
+
+
+useEffect(()=>{
+    if(currentPlan) setSelectedPlan(currentPlan);
+},[currentPlan]);
+
+
+useEffect(()=>{
+    if(plans.length && !id){
+        setSearchParams({id:plans[0].id});
+    }
+},[plans]);
+
+
+const changePlan=(plan)=>{
+    setSearchParams({id:plan.id});
+    dispatch(getOneMemberPlan(plan.id));
+};
+
+
+if(loading && !selectedPlan){
+    return <div className="h-screen flex items-center justify-center">
+        Loading...
+    </div>
 }
 
-export default PremiumMain
+
+return(
+<>
+<Navbar/>
+
+<div className="bg-gray-50 py-16 min-h-screen">
+<div className="max-w-7xl mx-auto px-4">
+
+
+<div className="text-center">
+<span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-xs">
+Premium Healthcare Plans
+</span>
+
+<h1 className="text-4xl font-bold mt-6">
+Choose Your Membership
+</h1>
+
+<p className="text-gray-500 mt-3">
+Affordable healthcare benefits for you and your family
+</p>
+</div>
+
+
+
+<div className="grid md:grid-cols-3 gap-6 mt-14">
+
+{
+plans.map(plan=>(
+
+<div
+key={plan.id}
+onClick={()=>changePlan(plan)}
+className={`bg-white rounded-3xl p-7 cursor-pointer transition hover:-translate-y-2 shadow ${
+selectedPlan?.id===plan.id
+?"border-2 border-primary"
+:"border"
+}`}>
+
+
+{
+selectedPlan?.id===plan.id &&
+<div className="text-xs text-primary font-semibold">
+CURRENT PLAN
+</div>
+}
+
+
+<h2 className="text-2xl font-bold mt-3">
+{plan.name}
+</h2>
+
+
+<div className="mt-5">
+<span className="text-4xl font-bold">
+₹{plan.price}
+</span>
+
+<span className="text-gray-400 ml-2">
+{
+plan.durationUnit==="LIFETIME"
+?"Lifetime"
+:`${plan.durationValue} ${plan.durationUnit}`
+}
+</span>
+</div>
+
+
+<p className="text-gray-500 mt-4 line-clamp-2">
+{plan.description}
+</p>
+
+
+<button className="w-full bg-black text-white py-3 rounded-xl mt-7">
+View Details
+</button>
+
+
+</div>
+
+))
+}
+
+</div>
+
+
+
+{
+selectedPlan &&
+
+<div className="bg-white rounded-3xl shadow-xl mt-16 overflow-hidden">
+
+
+<div className="bg-primary text-white p-8 md:p-12">
+
+<div className="flex flex-col md:flex-row justify-between gap-8">
+
+
+<div>
+
+<span className="bg-white/20 px-4 py-2 rounded-full text-xs">
+Selected Membership
+</span>
+
+
+<h2 className="text-4xl font-bold mt-6">
+{selectedPlan.name}
+</h2>
+
+
+<p className="text-white/80 mt-4 max-w-xl">
+{selectedPlan.description}
+</p>
+
+
+</div>
+
+
+
+<div className="bg-white text-black rounded-3xl p-8 min-w-[260px]">
+
+
+<p className="text-gray-400 text-sm">
+Membership Fee
+</p>
+
+
+<h3 className="text-5xl font-bold text-primary mt-2">
+₹{selectedPlan.price}
+</h3>
+
+
+<p className="text-gray-500 mt-3">
+{
+    selectedPlan.durationUnit==="LIFETIME"
+    ? "Lifetime Access"
+    : `${selectedPlan.durationValue} ${selectedPlan.durationUnit}`
+}
+</p>
+
+<button
+    onClick={() => navigate(`/premium-purchase/${selectedPlan.id}`)}
+    className="w-full bg-primary text-white py-4 rounded-xl mt-6"
+>
+    Purchase Now
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+<div className="p-8 md:p-12">
+
+
+<h3 className="text-2xl font-bold">
+Plan Benefits
+</h3>
+
+
+<div className="grid md:grid-cols-2 gap-5 mt-6">
+
+{
+selectedPlan.benefits?.map((item,index)=>(
+
+<div
+key={index}
+className="flex gap-4 items-center bg-green-50 rounded-2xl p-5"
+>
+
+<div className="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
+✓
+</div>
+
+
+<p>
+{item}
+</p>
+
+</div>
+
+))
+}
+
+</div>
+
+
+
+
+<h3 className="text-2xl font-bold mt-12">
+Membership Summary
+</h3>
+
+
+<div className="grid md:grid-cols-4 gap-5 mt-6">
+
+
+<div className="bg-gray-50 p-6 rounded-2xl">
+<p className="text-xs text-gray-400">
+PLAN STATUS
+</p>
+
+<h4 className={`mt-3 font-bold ${
+selectedPlan.isActive?"text-green-600":"text-red-600"
+}`}>
+{selectedPlan.isActive?"Active":"Inactive"}
+</h4>
+</div>
+
+
+
+<div className="bg-gray-50 p-6 rounded-2xl">
+<p className="text-xs text-gray-400">
+DURATION
+</p>
+
+<h4 className="mt-3 font-bold">
+{
+selectedPlan.durationUnit==="LIFETIME"
+?"Lifetime"
+:`${selectedPlan.durationValue} ${selectedPlan.durationUnit}`
+}
+</h4>
+</div>
+
+
+
+<div className="bg-gray-50 p-6 rounded-2xl">
+<p className="text-xs text-gray-400">
+PAYMENT
+</p>
+
+<h4 className="mt-3 font-bold">
+One Time
+</h4>
+</div>
+
+
+
+<div className="bg-gray-50 p-6 rounded-2xl">
+<p className="text-xs text-gray-400">
+MEMBERSHIP ID
+</p>
+
+<h4 className="mt-3 font-bold">
+#{selectedPlan.id}
+</h4>
+</div>
+
+
+</div>
+
+
+
+
+<div className="bg-gray-900 text-white rounded-3xl p-8 mt-12">
+
+<h3 className="text-2xl font-bold">
+How It Works
+</h3>
+
+
+<div className="grid md:grid-cols-3 gap-6 mt-6">
+
+
+<div>
+<h4 className="font-semibold">
+Purchase
+</h4>
+<p className="text-gray-400 text-sm mt-2">
+Complete payment and activate membership.
+</p>
+</div>
+
+
+<div>
+<h4 className="font-semibold">
+Get Member ID
+</h4>
+<p className="text-gray-400 text-sm mt-2">
+Show your ID at partner hospitals.
+</p>
+</div>
+
+
+<div>
+<h4 className="font-semibold">
+Use Benefits
+</h4>
+<p className="text-gray-400 text-sm mt-2">
+Receive healthcare discounts.
+</p>
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+}
+
+
+</div>
+</div>
+
+<Footer/>
+</>
+)
+
+}
+
+export default PremiumMain;

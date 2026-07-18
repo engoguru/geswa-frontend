@@ -28,11 +28,42 @@ export const fetchOnePartner = createAsyncThunk(
     }
 );
 
+// Dashbaord data
+// Get assigned hospital
+export const getAssignedHospitalUser = createAsyncThunk(
+    "hospital/getAssignedHospitalUser",
+    async (userId, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                `${base_Url}hospital/assigned-hospital/${userId}`,
+                {
+                    withCredentials: true
+                }
+            );
+
+            return response.data;
+
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data?.message || "Fetch assigned hospital failed"
+            );
+        }
+    }
+);
+
+
+
+
 const initialState = {
     partners: [],
     partnerOne: null,
+ assignedHospitalData: null,
+
     loading: false,
+  assignmentLoading: false,
+
     error: null,
+    assignmentError: null,
 };
 
 const partnerSlice = createSlice({
@@ -68,7 +99,22 @@ const partnerSlice = createSlice({
             .addCase(fetchOnePartner.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-            });
+            })
+
+
+
+                  // Get assigned hospital
+            .addCase(getAssignedHospitalUser.pending, (state) => {
+                state.assignmentLoading = true;
+            })
+            .addCase(getAssignedHospitalUser.fulfilled, (state, action) => {
+                state.assignmentLoading = false;
+                state.assignedHospitalData = action.payload.data;
+            })
+            .addCase(getAssignedHospitalUser.rejected, (state, action) => {
+                state.assignmentLoading = false;
+                state.assignmentError = action.payload;
+            })
     },
 });
 
