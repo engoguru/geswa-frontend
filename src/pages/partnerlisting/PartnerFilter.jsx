@@ -51,7 +51,7 @@ function PartnerFilter({ setOpenFilter }) {
             </div>
 
             {/* City */}
-            <div className="mt-8">
+            {/* <div className="mt-8">
 
                 <label className="text-sm font-medium text-gray-700">
                     City
@@ -65,10 +65,10 @@ function PartnerFilter({ setOpenFilter }) {
                     <option>Bangalore</option>
                     <option>Hyderabad</option>
                 </select>
-            </div>
+            </div> */}
 
             {/* Speciality */}
-            <div className="mt-8">
+            {/* <div className="mt-8">
 
                 <label className="text-sm font-medium text-gray-700">
                     Speciality
@@ -96,10 +96,10 @@ function PartnerFilter({ setOpenFilter }) {
                         Cancer Care
                     </label>
                 </div>
-            </div>
+            </div> */}
 
             {/* Discount */}
-            <div className="mt-8">
+            {/* <div className="mt-8">
 
                 <label className="text-sm font-medium text-gray-700">
                     Minimum Discount
@@ -116,10 +116,10 @@ function PartnerFilter({ setOpenFilter }) {
                     <span>10%</span>
                     <span>60%</span>
                 </div>
-            </div>
+            </div> */}
 
             {/* Buttons */}
-            <div className="flex gap-3 mt-10">
+            {/* <div className="flex gap-3 mt-10">
 
                 <button className="flex-1 border border-gray-200 py-3 rounded-xl text-sm font-medium hover:bg-gray-100 transition">
                     Reset
@@ -131,7 +131,7 @@ function PartnerFilter({ setOpenFilter }) {
                 >
                     Apply
                 </button>
-            </div>
+            </div> */}
         </div>
     )
 }

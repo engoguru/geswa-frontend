@@ -14,6 +14,7 @@ import {
     HeartPulse,
     ChevronRight
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 function HelpCenter() {
 
@@ -67,13 +68,13 @@ function HelpCenter() {
                     {/* Search */}
                     <div className="mt-10 max-w-2xl mx-auto relative">
 
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        {/* <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
 
                         <input
                             type="text"
                             placeholder="Search for help topics..."
                             className="w-full bg-gray-50 border border-gray-200 rounded-2xl pl-12 pr-4 py-4 text-sm outline-none focus:border-primary"
-                        />
+                        /> */}
                     </div>
                 </div>
 
@@ -157,15 +158,15 @@ function HelpCenter() {
 
                         <div className="flex flex-col sm:flex-row gap-4 mt-10">
 
-                            <button className="bg-white text-primary px-7 py-3 rounded-2xl text-sm font-semibold">
+                            <Link to={"/contact"} className="bg-white text-primary px-7 py-3 rounded-2xl text-sm font-semibold">
                                 <PhoneCall className="inline mr-2" size={16} />
                                 Call Support
-                            </button>
+                            </Link>
 
-                            <button className="border border-white/30 hover:bg-white/10 px-7 py-3 rounded-2xl text-sm">
+                            <Link to={"/contact"} className="border border-white/30 hover:bg-white/10 px-7 py-3 rounded-2xl text-sm">
                                 <Mail className="inline mr-2" size={16} />
                                 Email Us
-                            </button>
+                            </Link>
                         </div>
                     </div>
 

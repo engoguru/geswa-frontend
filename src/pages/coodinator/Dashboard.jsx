@@ -13,14 +13,16 @@ import {
   IndianRupee
 } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { verifiedUser } from '../../reduxStore/slice/userSlice'
+import { logoutUser, verifiedUser } from '../../reduxStore/slice/userSlice'
 import { getMemberPlans } from '../../reduxStore/slice/memberplanSlice'
 
 import { Copy } from "lucide-react";
 import { toast } from "react-toastify";
 import { getAllPurchasePlanByemployeeId } from '../../reduxStore/slice/premiumPurchaseSlice'
+import { useNavigate } from 'react-router-dom'
 
 function Dashboard() {
+  const navigate=useNavigate()
   const dispatch = useDispatch()
   const { loginUserData } = useSelector((state) => state?.user)
 
@@ -147,7 +149,18 @@ function Dashboard() {
       icon: <Crown size={25} />,
     },
   ];
-  console.log(purchaseEmployee)
+  // console.log(purchaseEmployee)
+
+   const handleLogout = async () => {
+      try {
+        // logoutUser
+        await dispatch(logoutUser()).unwrap();
+        toast.success("Logged out successfully");
+        navigate("/sign-in", { replace: true });
+      } catch (error) {
+        toast.error(error || "Failed to logout");
+      }
+    };
   return (
     <div className="flex bg-[#f4f7fb] min-h-screen">
 
@@ -177,6 +190,12 @@ function Dashboard() {
 
               {employee?.role === "Village-Coordinator" && employee?.village}
             </p>
+              <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-5 py-1 my-2 rounded-lg hover:bg-red-900"
+            >
+              Logout
+            </button>
           </div>
 
 

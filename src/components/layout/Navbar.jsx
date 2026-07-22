@@ -18,8 +18,6 @@ export default function Navbar() {
     ];
     console.log(loginUserData, "pp")
     return (
-
-
         <nav className="bg-white text-black sticky top-0 z-50 shadow-sm border-b">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -80,12 +78,13 @@ export default function Navbar() {
                                 </Link>
                             )}
                         </button>
+                        <Link to={"/premium-plans/2"}>
+                            <button className="bg-primary hover:bg-primary-600 text-white text-sm px-5 py-2 rounded-xl font-medium transition">
 
-                        <button className="bg-primary hover:bg-primary-600 text-white text-sm px-5 py-2 rounded-xl font-medium transition">
-                            <Link to={"/sign-up"}>
                                 Get Card
-                            </Link>
-                        </button>
+
+                            </button>
+                        </Link>
                     </div>
 
                     {/* Mobile Menu Button */}

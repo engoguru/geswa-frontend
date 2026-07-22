@@ -70,11 +70,23 @@ function CareerMain() {
                             {/* Buttons */}
                             <div className="flex flex-col sm:flex-row gap-4 mt-10">
 
-                                <button className="bg-primary hover:bg-primary-600 transition-all duration-300 text-white px-7 py-3 rounded-2xl text-sm font-medium shadow-lg">
+                                <button 
+                                 onClick={() =>
+                                        document.getElementById("explore-job")?.scrollIntoView({
+                                            behavior: "smooth",
+                                        })
+                                    }
+                                className="bg-primary hover:bg-primary-600 transition-all duration-300 text-white px-7 py-3 rounded-2xl text-sm font-medium shadow-lg">
                                     Explore Jobs
                                 </button>
-
-                                <button className="border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 px-7 py-3 rounded-2xl text-sm font-medium">
+                                <button
+                                    onClick={() =>
+                                        document.getElementById("learn-more-btn")?.scrollIntoView({
+                                            behavior: "smooth",
+                                        })
+                                    }
+                                    className="border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 px-7 py-3 rounded-2xl text-sm font-medium"
+                                >
                                     Learn More
                                 </button>
                             </div>
@@ -193,7 +205,7 @@ function CareerMain() {
                 </div>
 
                 {/* Why Join */}
-                <div className="mt-10">
+                <div className="mt-10" id="learn-more-btn">
 
                     <div className="text-center max-w-3xl mx-auto">
 
@@ -297,55 +309,56 @@ function CareerMain() {
                     </div>
 
                     {/* Jobs */}
-                    <div className="space-y-6 mt-14">
+                    <div className="space-y-6 mt-14" id="explore-job">
 
                         {/* Job 1 */}
                         {jobs?.data?.map((job, index) => {
                             return (
-                            <div className="bg-white border border-primary-200 rounded-[32px] p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300">
+                                <div className="bg-white border border-primary-200 rounded-[32px] p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300">
 
-                                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
 
-                                    <div>
+                                        <div>
 
-                                        <div className="flex flex-wrap gap-3">
+                                            <div className="flex flex-wrap gap-3">
 
 
-                                            <span className="bg-green/10 text-green text-xs px-3 py-1 rounded-full">
-                                                {job?.employmentType}
-                                            </span>
+                                                <span className="bg-green/10 text-green text-xs px-3 py-1 rounded-full">
+                                                    {job?.employmentType}
+                                                </span>
+                                            </div>
+
+                                            <h3 className="text-2xl font-semibold text-black mt-5">
+                                                {job?.title}
+                                            </h3>
+
+                                            <div className="flex flex-wrap gap-5 mt-5 text-sm text-gray-500">
+
+                                                <div className="flex items-center gap-2">
+                                                    <Building2 size={16} />
+                                                    {job?.location}
+                                                </div>
+
+                                                <div className="flex items-center gap-2">
+                                                    <Clock3 size={16} />
+                                                    {job?.experience}
+                                                </div>
+
+                                                <div className="flex items-center gap-2">
+                                                    <Globe size={16} />
+                                                    India
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <h3 className="text-2xl font-semibold text-black mt-5">
-                                            {job?.title}
-                                        </h3>
-
-                                        <div className="flex flex-wrap gap-5 mt-5 text-sm text-gray-500">
-
-                                            <div className="flex items-center gap-2">
-                                                <Building2 size={16} />
-                                                {job?.location}
-                                            </div>
-
-                                            <div className="flex items-center gap-2">
-                                                <Clock3 size={16} />
-                                                {job?.experience}
-                                            </div>
-
-                                            <div className="flex items-center gap-2">
-                                                <Globe size={16} />
-                                                India
-                                            </div>
-                                        </div>
+                                        <Link to={`/job-detail/${job?.id}`} className="bg-primary hover:bg-primary-600 transition-all duration-300 text-white px-7 py-3 rounded-2xl text-sm font-medium flex items-center gap-2">
+                                            Apply Now
+                                            <ArrowRight size={18} />
+                                        </Link>
                                     </div>
-
-                                    <Link to={`/job-detail/${job?.id}`} className="bg-primary hover:bg-primary-600 transition-all duration-300 text-white px-7 py-3 rounded-2xl text-sm font-medium flex items-center gap-2">
-                                        Apply Now
-                                        <ArrowRight size={18} />
-                                    </Link>
                                 </div>
-                            </div>
-                       ) })}
+                            )
+                        })}
 
 
 
@@ -373,13 +386,19 @@ function CareerMain() {
 
                         <div className="flex flex-col sm:flex-row gap-4 mt-10">
 
-                            <button className="bg-white text-primary hover:bg-gray-100 transition-all duration-300 px-7 py-3 rounded-2xl text-sm font-semibold shadow-lg">
+                            <button 
+                              onClick={() =>
+                                        document.getElementById("explore-job")?.scrollIntoView({
+                                            behavior: "smooth",
+                                        })
+                                    }
+                            className="bg-white text-primary hover:bg-gray-100 transition-all duration-300 px-7 py-3 rounded-2xl text-sm font-semibold shadow-lg">
                                 Apply Now
                             </button>
 
-                            <button className="border border-white/30 hover:bg-white/10 transition-all duration-300 px-7 py-3 rounded-2xl text-sm">
+                            {/* <button className="border border-white/30 hover:bg-white/10 transition-all duration-300 px-7 py-3 rounded-2xl text-sm">
                                 Contact HR
-                            </button>
+                            </button> */}
                         </div>
                     </div>
 

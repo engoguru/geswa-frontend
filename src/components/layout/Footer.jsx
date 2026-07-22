@@ -187,16 +187,21 @@ function Footer() {
             </h3>
 
             <ul className="space-y-3 text-sm text-white/60">
-              <li className="hover:text-white transition cursor-pointer">Hospitals</li>
-              <li className="hover:text-white transition cursor-pointer">Insurance</li>
               <li>
-                <Link to="/premium-plans" className="hover:text-white transition">
+                <Link to={"/partners"} className="hover:text-white transition cursor-pointer">Hospitals</Link>
+              </li>
+
+              <li>
+                <Link to={"/premium-plans/1"} className="hover:text-white transition cursor-pointer">Insurance</Link>
+              </li>
+              <li>
+                <Link to={"/premium-plans/1"} className="hover:text-white transition">
                   Pricing
                 </Link>
               </li>
-              <li className="hover:text-white transition cursor-pointer">
+              {/* <li className="hover:text-white transition cursor-pointer">
                 Co-ordinator
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -207,7 +212,9 @@ function Footer() {
             </h3>
 
             <ul className="space-y-3 text-sm text-white/60">
-              <li className="hover:text-white transition cursor-pointer">About</li>
+              <li>
+                <Link to={"/about-us"} className="hover:text-white transition cursor-pointer">About</Link>
+              </li>
               <li>
                 <Link to="/career" className="hover:text-white transition">
                   Careers
@@ -218,8 +225,10 @@ function Footer() {
                   Blog
                 </Link>
               </li>
-              <li className="hover:text-white transition cursor-pointer">
-                Partners
+              <li>
+                <Link to={"/partners"} className="hover:text-white transition cursor-pointer">
+                  Partners
+                </Link>
               </li>
             </ul>
           </div>
@@ -231,7 +240,9 @@ function Footer() {
             </h3>
 
             <ul className="space-y-3 text-sm text-white/60">
-              <li className="hover:text-white transition cursor-pointer">Contact</li>
+              <li>
+                <Link to={"/contact"} className="hover:text-white transition cursor-pointer">Contact</Link>
+              </li>
               <li>
                 <Link to="/help-center" className="hover:text-white transition">
                   Help Center
@@ -262,15 +273,15 @@ function Footer() {
               <p>Maharashtra 411005</p>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 mb-3">
               <p className="text-xs text-white/40">Toll Free</p>
               <p className="text-sm text-white/70 font-medium">1234567890</p>
             </div>
 
             {/* CTA */}
-            <button className="mt-6 w-full py-2 rounded-xl bg-white text-black text-sm font-medium hover:bg-white/90 transition">
+            <Link to={"/contact"} className=" w-full py-1  px-2  rounded-xl bg-white text-black text-sm font-medium hover:bg-white/90 transition">
               Contact Support
-            </button>
+            </Link>
           </div>
 
         </div>
@@ -280,9 +291,9 @@ function Footer() {
           <p>Built with care for better healthcare access</p>
 
           <div className="flex gap-5">
-            <span className="hover:text-white transition cursor-pointer">Privacy</span>
-            <span className="hover:text-white transition cursor-pointer">Terms</span>
-            <span className="hover:text-white transition cursor-pointer">Security</span>
+            <Link to={"/privacy"} className="hover:text-white transition cursor-pointer">Privacy</Link>
+            <Link to={"/term-conditions"} className="hover:text-white transition cursor-pointer">Terms</Link>
+            <Link to={"/privacy"} className="hover:text-white transition cursor-pointer">Security</Link>
           </div>
         </div>
 

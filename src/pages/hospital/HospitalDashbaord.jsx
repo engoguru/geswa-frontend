@@ -415,6 +415,11 @@ function HospitalDashboard() {
     }
   }, [assignedHospitalData, dispatch]);
 
+  // this is used to fetch and search paid member thrrough member- id 
+    useEffect(() => {
+    dispatch(getAllPurchasePlan(search));
+  }, [search, dispatch]);
+
   const handleLogout = async () => {
     try {
       await dispatch(logoutUser()).unwrap();

@@ -136,9 +136,9 @@ function Partner() {
                     </p>
                 </div>
 
-                <button className="bg-primary hover:opacity-90 transition text-white px-8 py-4 rounded-2xl text-sm font-semibold whitespace-nowrap shadow-lg">
+                <Link to={"/premium-plans/1"} className="bg-primary hover:opacity-90 transition text-white px-8 py-4 rounded-2xl text-sm font-semibold whitespace-nowrap shadow-lg">
                     Get Membership Card
-                </button>
+                </Link>
             </div>
         </section>
     )

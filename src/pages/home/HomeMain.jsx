@@ -5,6 +5,7 @@ import PremiumPlans from './PremiumPlans'
 import Feedback from './Feedback'
 import Faq from './Faq'
 import Partner from './Partner'
+import { Link } from 'react-router-dom'
 
 
 function HomeMain() {
@@ -38,9 +39,9 @@ function HomeMain() {
                         {/* Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 mt-6">
 
-                            <button className="bg-primary hover:bg-primary px-6 py-1 rounded-xl text-white text-sm transition">
+                            <Link to={"/premium-plans/1"} className="bg-primary hover:bg-primary px-6 py-1 rounded-xl text-white text-sm transition">
                                 Get Card
-                            </button>
+                            </Link>
 
                             <button className="bg-black hover:bg-gray-800 px-6 py-1 rounded-xl text-white text-sm transition">
                                 Watch Demo
@@ -154,7 +155,7 @@ function HomeMain() {
                 </div>
 
                 {/* How its work */}
-                <div className="mt-20 shadow-lg border border-gray-200">
+                <div className="mt-20 shadow-sm border border-gray-200 p-2">
 
                     {/* Heading */}
                     <div className=" mb-12 ">

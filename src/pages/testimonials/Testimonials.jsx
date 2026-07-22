@@ -10,6 +10,7 @@ import {
     Users,
     Hospital
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 function Testimonials() {
 
@@ -229,13 +230,13 @@ function Testimonials() {
 
                         <div className="flex flex-col sm:flex-row gap-4 mt-10">
 
-                            <button className="bg-white text-primary hover:bg-gray-100 transition px-7 py-3 rounded-2xl text-sm font-semibold">
+                            <Link to={"/premium-plans/2"} className="bg-white text-primary hover:bg-gray-100 transition-all duration-300 px-7 py-3 rounded-2xl text-sm font-semibold shadow-lg">
                                 Get Membership
-                            </button>
+                            </Link>
 
-                            <button className="border border-white/30 hover:bg-white/10 transition px-7 py-3 rounded-2xl text-sm">
-                                Contact Support
-                            </button>
+                            <Link to={"/contact"} className="border border-white/30 hover:bg-white/10 transition-all duration-300 px-7 py-3 rounded-2xl text-sm">
+                                Contact Sales
+                            </Link>
                         </div>
                     </div>
 
