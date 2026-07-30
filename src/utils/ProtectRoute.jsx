@@ -26,10 +26,21 @@ function ProtectRoute({ allowedRoles }) {
     return <Navigate to="/sign-in" replace />;
   }
 
-  // role check (SAFE now)
+  //   // role check (SAFE now)
+  //   const userRole = loginUserData?.user?.role
+  //   const anotherRole=loginUserData?.employee?.role ;
+  // // console.log(allowedRoles,userRole,"pp")
+  //   if (allowedRoles && !allowedRoles.includes(userRole)) {
+  //     return <Navigate to="/not-found" replace />;
+  //   }
   const userRole = loginUserData?.user?.role;
-// console.log(allowedRoles,userRole,"pp")
-  if (allowedRoles && !allowedRoles.includes(userRole)) {
+  const employeeRole = loginUserData?.user?.employee?.role;
+
+  const hasAccess =
+    allowedRoles.includes(userRole) ||
+    allowedRoles.includes(employeeRole);
+// console.log(hasAccess,"popo")
+  if (allowedRoles && !hasAccess) {
     return <Navigate to="/not-found" replace />;
   }
 

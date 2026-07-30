@@ -11,6 +11,9 @@ import memberPlanReducer from "../slice/memberplanSlice"
 import memberPurchaseReducer from "../slice/premiumPurchaseSlice"
 import memberServiceReducer from "../slice/premiumServiceSlice"
 
+import attendanceReducer from "../slice/hr/attendanceSlice"
+import expanseReducer from "../slice/hr/expanseSlice"
+
 export const rootReducer=combineReducers({
   user:userReducer,
   contact:contactReducer,
@@ -21,6 +24,8 @@ export const rootReducer=combineReducers({
   blog:blogReducer,
   memberPlan:memberPlanReducer,
   memberPurchase:memberPurchaseReducer,
-  memberService:memberServiceReducer
+  memberService:memberServiceReducer,
+  attendance:attendanceReducer,
+  expanse:expanseReducer
 
 })

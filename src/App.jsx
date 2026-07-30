@@ -34,6 +34,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { verifiedUser } from './reduxStore/slice/userSlice'
 import HospitalDashbaord from './pages/hospital/HospitalDashbaord'
 import PremiumPurchase from './components/common/PremiumPurchase'
+import HrDashboard from './pages/hr/HrDashboard'
+import EmployeeAttendance from './pages/hr/EmployeeAttendance'
 
 function App() {
   const dispatch = useDispatch()
@@ -111,6 +113,12 @@ function App() {
         <Route element={<ProtectRoute allowedRoles={['HOSPITAL']} />}>
           <Route path="/hospital" element={<HospitalDashbaord />} />
           {/* <Route path='/premium-purchase/:id' element={<PremiumPurchase />} /> */}
+        </Route>
+
+
+        <Route element={<ProtectRoute allowedRoles={['HR']} />}>
+          <Route path="/hr" element={<HrDashboard />} />
+          <Route path="/attendance/:id" element={<EmployeeAttendance />} />
         </Route>
       </Routes>
 

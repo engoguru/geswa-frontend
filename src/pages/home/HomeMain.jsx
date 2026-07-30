@@ -94,7 +94,7 @@ function HomeMain() {
                                         ID: 1234 5678 9012
                                     </h4>
 
-                                    <div className="flex items-center justify-between mt-4">
+                                    <div className="flex items-center justify-between mt-2 ">
 
                                         <p className="text-[10px] text-gray-400">
                                             Valid Till: 31 Dec 2026

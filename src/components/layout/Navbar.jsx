@@ -16,7 +16,24 @@ export default function Navbar() {
         { name: "Career", href: "/career" },
         { name: "Contact", href: "/contact" },
     ];
-    console.log(loginUserData, "pp")
+    // console.log(loginUserData, "pp")
+    const getDashboardRoute = () => {
+        if (!loginUserData?.user) return "/sign-in";
+
+        const { role } = loginUserData.user;
+
+        if (role === "MEMBER") return "/user";
+
+        if (role === "EMPLOYEE") {
+            return loginUserData?.user?.employee?.role === "HR"
+                ? "/hr"
+                : "/dashboard";
+        }
+
+        if (role === "HOSPITAL") return "/hospital";
+
+        return "/";
+    };
     return (
         <nav className="bg-white text-black sticky top-0 z-50 shadow-sm border-b">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,17 +76,7 @@ export default function Navbar() {
                     <div className="hidden md:flex items-center gap-4">
                         <button className="bg-black hover:bg-gray-800 text-white text-sm px-5 py-2 rounded-xl font-medium transition">
                             {loginUserData?.user && loginUserData.user.role !== "ADMIN" ? (
-                                <Link
-                                    to={
-                                        loginUserData.user.role === "MEMBER"
-                                            ? "/user"
-                                            : loginUserData.user.role === "EMPLOYEE"
-                                                ? "/dashboard"
-                                                : loginUserData.user.role === "HOSPITAL"
-                                                    ? "/hospital"
-                                                    : "/"
-                                    }
-                                >
+                                <Link to={getDashboardRoute()}>
                                     Dashboard
                                 </Link>
                             ) : (
