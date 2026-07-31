@@ -47,6 +47,7 @@ function App() {
 
   useEffect(() => {
     if (!authChecked) {
+      console.log("app")
       dispatch(verifiedUser());
     }
   }, [authChecked, dispatch]);

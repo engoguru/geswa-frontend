@@ -117,6 +117,7 @@ let initialState = {
 
     loading: false,
 
+    loginUserData2: null,
     loginUserData: null,
 
     logout: null,
@@ -152,7 +153,7 @@ const userSlice = createSlice({
 
         builder.addCase(loginUser.fulfilled, (state, action) => {
             state.loading = false;
-            state.loginUserData  = action.payload
+            state.loginUserData2  = action.payload
         })
 
         builder.addCase(loginUser.rejected, (state, action) => {

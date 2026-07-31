@@ -6,13 +6,15 @@ import { Navigate, Outlet } from "react-router-dom";
 function ProtectRoute({ allowedRoles }) {
   const dispatch = useDispatch();
 
-  const { loginUserData, isloginLoading, authChecked } = useSelector(
+  let { loginUserData, isloginLoading, authChecked } = useSelector(
     (state) => state.user
   );
-
+// 
   // verifiedUser
   useEffect(() => {
+
     if (!authChecked) {
+     
       dispatch(verifiedUser());
     }
   }, [authChecked, dispatch]);

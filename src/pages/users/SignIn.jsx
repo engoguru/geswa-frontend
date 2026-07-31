@@ -6,7 +6,7 @@ import { Mail, Lock, ShieldCheck, HeartPulse, Users, LogIn } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { loginUser } from '../../reduxStore/slice/userSlice'
+import { loginUser, verifiedUser } from '../../reduxStore/slice/userSlice'
 
 function SignIn() {
     const dispatch = useDispatch()
@@ -37,8 +37,9 @@ function SignIn() {
 
                 const role = response?.user?.role?.toUpperCase();
                 const employeeRole = response?.employee?.role?.toUpperCase();
-
-                console.log(role, employeeRole);
+                  await   dispatch(verifiedUser());
+                //   verifiedUser
+                // console.log(role, employeeRole);
 
                 if (role === "EMPLOYEE" && employeeRole === "HR") {
                     console.log("Going HR route");
