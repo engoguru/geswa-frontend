@@ -10,6 +10,7 @@ function ProtectRoute({ allowedRoles }) {
     (state) => state.user
   );
 
+  // verifiedUser
   useEffect(() => {
     if (!authChecked) {
       dispatch(verifiedUser());
@@ -35,6 +36,8 @@ function ProtectRoute({ allowedRoles }) {
   //   }
   const userRole = loginUserData?.user?.role;
   const employeeRole = loginUserData?.user?.employee?.role;
+
+
 
   const hasAccess =
     allowedRoles.includes(userRole) ||

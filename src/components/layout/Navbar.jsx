@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const { loginUserData } = useSelector((state) => state?.user)
+
+  // verifiedUser
     // useSelector
     const navLinks = [
         { name: "Home", href: "/" },

@@ -23,60 +23,61 @@ function SignIn() {
         })
     }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    try {
-        setSubmit(true);
+        try {
+            setSubmit(true);
 
-        const response = await dispatch(loginUser(form)).unwrap();
-        console.log(response, "login response");
+            const response = await dispatch(loginUser(form)).unwrap();
+            console.log(response, "login response");
 
-        if (response?.success) {
-            toast.success(response.message);
+            if (response?.success) {
+                toast.success(response.message);
 
-            const role = response?.user?.role?.toUpperCase();
-            const employeeRole = response?.employee?.role?.toUpperCase();
+                const role = response?.user?.role?.toUpperCase();
+                const employeeRole = response?.employee?.role?.toUpperCase();
 
-            console.log(role, employeeRole);
+                console.log(role, employeeRole);
 
-            if (role === "EMPLOYEE" && employeeRole === "HR") {
-                navigate("/hr");
-            } 
-            else if (role === "EMPLOYEE") {
-                navigate("/dashboard");
-            } 
-            else if (role === "MEMBER") {
-                const redirectUrl = localStorage.getItem("purchaseUrlGS");
-
-                if (redirectUrl) {
-                    localStorage.removeItem("purchaseUrlGS");
-                    navigate(redirectUrl);
-                } else {
-                    navigate("/user");
+                if (role === "EMPLOYEE" && employeeRole === "HR") {
+                    console.log("Going HR route");
+                    navigate("/hr");
                 }
-            } 
-            else if (role === "HOSPITAL") {
-                navigate("/hospital");
-            } 
-            else {
-                navigate("/not-found");
+                else if (role === "EMPLOYEE") {
+                    navigate("/dashboard");
+                }
+                else if (role === "MEMBER") {
+                    const redirectUrl = localStorage.getItem("purchaseUrlGS");
+
+                    if (redirectUrl) {
+                        localStorage.removeItem("purchaseUrlGS");
+                        navigate(redirectUrl);
+                    } else {
+                        navigate("/user");
+                    }
+                }
+                else if (role === "HOSPITAL") {
+                    navigate("/hospital");
+                }
+                else {
+                    navigate("/not-found");
+                }
             }
+
+            setForm({
+                email: "",
+                password: ""
+            });
+
+            setSubmit(false);
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error || "Something went wrong");
+            setSubmit(false);
         }
-
-        setForm({
-            email: "",
-            password: ""
-        });
-
-        setSubmit(false);
-
-    } catch (error) {
-        console.log(error);
-        toast.error(error || "Something went wrong");
-        setSubmit(false);
-    }
-};
+    };
 
     return (
         <>
