@@ -41,7 +41,7 @@ export const getPurchasePlan = createAsyncThunk(
         try {
 
             const response = await axios.get(
-                `${base_Url}membership-purchase/${id}`,
+                `${base_Url}membership-purchase/viewOne/${id}`,
                 {
                     withCredentials:true
                 }

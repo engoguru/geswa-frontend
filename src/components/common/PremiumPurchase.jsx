@@ -3,7 +3,7 @@ import Navbar from "../layout/Navbar";
 import Footer from "../layout/Footer";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createPurchasePlan } from "../../reduxStore/slice/premiumPurchaseSlice";
+import { createPurchasePlan, getAllPurchasePlan, getPurchasePlan } from "../../reduxStore/slice/premiumPurchaseSlice";
 import { getOneMemberPlan } from "../../reduxStore/slice/memberplanSlice";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -24,10 +24,14 @@ function PremiumPurchase() {
         (state) => state.memberPlan
     );
 
+
     const [form, setForm] = useState({
         startDate: "",
         paymentMethod: "ONLINE"
     });
+    const { purchaseData } = useSelector(
+        (state) => state.memberPurchase
+    );
 
     // console.log(loginUserData)
     useEffect(() => {
@@ -69,7 +73,7 @@ function PremiumPurchase() {
         navigate
     ]);
 
-
+console.log(loginUserData)
     const handleChange = (e) => {
 
         setForm({
@@ -79,55 +83,98 @@ function PremiumPurchase() {
 
     };
 
+const checkPaymentStatus = async (purchaseId) => {
 
-    const handlePurchase = async () => {
+    let attempts = 0;
 
-        if (!id) {
-            toast.error("Invalid membership plan");
-            return;
-        }
-
-        if (!form.startDate) {
-            toast.error("Please select start date");
-            return;
-        }
-// toast
+    const interval = setInterval(async () => {
         try {
+            const purchase = await dispatch(getPurchasePlan(purchaseId)).unwrap();
+            console.log(purchase,"data")
+            if (  purchase?.data?.paymentStatus === "SUCCESS" && purchase?.data?.status === "ACTIVE" ) {
+                clearInterval(interval);
+                toast.success( "Membership purchased successfully" );
+                navigate("/");
+            }
+            if (purchase?.data?.paymentStatus === "FAILED") {
+                clearInterval(interval);
+                toast.error( "Payment failed" );
+            }
+            attempts++;
 
-            setWait(true);
-
-            await dispatch(
-                createPurchasePlan({
-                    membershipId: Number(id),
-                    employeeAssignmentId: ref ? Number(ref) : null,
-                    startDate: form.startDate,
-                    paymentMethod: form.paymentMethod
-                })
-            ).unwrap();
-
-
-            localStorage.removeItem("purchaseUrlGS");
-
-            toast.success("Membership purchased successfully");
-
-            navigate("/user");
-
-
+            if (attempts >= 10) {
+                clearInterval(interval);
+                toast.info("Payment confirmation is taking longer than expected");
+            }
         } catch (error) {
-
             console.log(error);
-
-            toast.error(
-                error?.message || "Purchase failed"
-            );
-
-        } finally {
-
-            setWait(false);
-
         }
-    };
+    }, 3000);
+};
 
+  const handlePurchase = async () => {
+    if (!id) {
+        toast.error("Invalid membership plan");
+        return;
+    }
+
+    if (!form.startDate) {
+        toast.error("Please select start date");
+        return;
+    }
+
+    try {
+        setWait(true);
+
+        const order = await dispatch(
+            createPurchasePlan({
+                membershipId: Number(id),
+                employeeAssignmentId: ref ? Number(ref) : null,
+                startDate: form.startDate,
+                paymentMethod: form.paymentMethod
+            })
+        ).unwrap();
+
+
+        const options = {
+            key: order.key,
+            amount: order.amount,
+            currency: order.currency,
+            name: "GESWA MICRO CARE FOUNDATION",
+            description: "Membership Purchase",
+            order_id: order.orderId,
+
+            prefill: {
+                name:loginUserData?.user?.name,
+                email:loginUserData?.user?.email,
+                contact:loginUserData?.user?.phone
+            },
+            theme: {
+                color: "#3399cc"
+            },
+
+            handler: function () {
+                toast.info("Payment received. Confirming your membership..." );
+                checkPaymentStatus(order.purchaseId);
+            },
+
+            modal: {
+             ondismiss: function () {
+             toast.error("Payment cancelled");
+                }
+            }
+        };
+
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
+
+    } catch (error) {
+        console.log(error);
+        toast.error( error?.message || "Purchase failed");
+    } finally {
+        setWait(false);
+    }
+};
 
     if (loading || !currentPlan) {
         return <div>Loading...</div>;
@@ -186,9 +233,9 @@ function PremiumPurchase() {
                                     Online Payment
                                 </option>
 
-                                <option value="CASH">
+                                {/* <option value="CASH">
                                     Cash
-                                </option>
+                                </option> */}
 
                             </select>
 
