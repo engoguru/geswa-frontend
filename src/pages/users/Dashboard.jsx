@@ -74,8 +74,14 @@ function Dashboard() {
     try {
       await dispatch(logoutUser()).unwrap()
       toast.success('Logged out successfully')
-      window.location.reload()
+
       navigate('/', { replace: true })
+   
+
+// Reload after navigation
+setTimeout(() => {
+  window.location.reload();
+}, 0);
     } catch (error) {
       toast.error(error || 'Failed to logout')
     }

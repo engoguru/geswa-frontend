@@ -425,6 +425,9 @@ function HospitalDashboard() {
       await dispatch(logoutUser()).unwrap();
       toast.success("Logged out successfully");
       navigate("/", { replace: true });
+   setTimeout(() => {
+  window.location.reload();
+}, 0);
     } catch (error) {
       toast.error(error || "Failed to logout");
     }
