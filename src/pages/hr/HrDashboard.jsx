@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getEmployees } from "../../reduxStore/slice/hr/attendanceSlice";
 import { createTransaction, getAllTransaction } from "../../reduxStore/slice/hr/expanseSlice";
 import { toast } from "react-toastify";
+import { logoutUser } from "../../reduxStore/slice/userSlice";
 
 
 
@@ -124,8 +125,8 @@ function HrPayroll() {
         );
     }, [dispatch, page, search]);
 
-     useEffect(() => {
-     
+    useEffect(() => {
+
         dispatch(getAllTransaction());
     }, [dispatch]);
     // getEmployees
@@ -163,7 +164,7 @@ function HrPayroll() {
         let totalCtc = 0, totalPayable = 0;
         employees.forEach((e) => {
             // console.log(e.monthlyCtc )
-              totalCtc += Number(e.monthlyCtc || 0);
+            totalCtc += Number(e.monthlyCtc || 0);
             totalPayable += calcNetPayable(e).net;
         });
         return { totalCtc, totalPayable };
@@ -186,7 +187,17 @@ function HrPayroll() {
             },
         });
     }
-
+    const handleLogout = async () => {
+        try {
+            // logoutUser
+            // logoutUser
+            await dispatch(logoutUser()).unwrap();
+            toast.success("Logged out successfully");
+            navigate("/sign-in", { replace: true });
+        } catch (error) {
+            toast.error(error || "Failed to logout");
+        }
+    };
     return (
         <div>
             {/* Summary cards */}
@@ -203,6 +214,12 @@ function HrPayroll() {
                     className="flex items-center gap-1.5 text-sm font-medium bg-slate-900 text-white px-3 py-1.5 rounded-md hover:bg-slate-700 transition"
                 >
                     <FileDown size={14} /> Generate Payroll PDF (All)
+                </button>
+                <button
+                    onClick={handleLogout}
+                    className="bg-red-600 text-white px-5 py-1 my-2 rounded-lg hover:bg-red-900"
+                >
+                    Logout
                 </button>
             </div>
 
@@ -386,7 +403,7 @@ function Row({ label, val }) {
 //     const sorted = [...transactions].sort((a, b) => (a.date < b.date ? 1 : -1));
 
 // useEffect(()=>{
-  
+
 // await dispatch(getAllTransaction())
 
 // },[])
@@ -465,7 +482,7 @@ function ExpenseManager() {
     useEffect(() => {
         dispatch(getAllTransaction());
     }, []);
-console.log(transactions,"op")
+    console.log(transactions, "op")
 
     const stats = useMemo(() => {
 
@@ -662,7 +679,7 @@ console.log(transactions,"op")
 
 
                                             <td className="px-4 py-3 text-slate-500">
-                                                {t.date?.slice(0,10)}
+                                                {t.date?.slice(0, 10)}
                                             </td>
 
 
@@ -671,17 +688,16 @@ console.log(transactions,"op")
 
 
                                                 <span
-                                                    className={`px-2 py-1 rounded-full text-xs ${
-                                                        t.type === "inflow"
-                                                        ? "bg-emerald-50 text-emerald-700"
-                                                        : "bg-rose-50 text-rose-700"
-                                                    }`}
+                                                    className={`px-2 py-1 rounded-full text-xs ${t.type === "inflow"
+                                                            ? "bg-emerald-50 text-emerald-700"
+                                                            : "bg-rose-50 text-rose-700"
+                                                        }`}
                                                 >
 
                                                     {
                                                         t.type === "inflow"
-                                                        ? "Inflow"
-                                                        : "Outflow"
+                                                            ? "Inflow"
+                                                            : "Outflow"
                                                     }
 
                                                 </span>
@@ -710,11 +726,10 @@ console.log(transactions,"op")
 
 
                                             <td
-                                                className={`px-4 py-3 text-right font-medium ${
-                                                    t.type === "inflow"
-                                                    ? "text-emerald-700"
-                                                    : "text-rose-700"
-                                                }`}
+                                                className={`px-4 py-3 text-right font-medium ${t.type === "inflow"
+                                                        ? "text-emerald-700"
+                                                        : "text-rose-700"
+                                                    }`}
                                             >
 
                                                 {t.type === "inflow" ? "+" : "-"}
@@ -782,7 +797,7 @@ function StatCard({ icon, label, value, color }) {
 //             const res= await dispatch(createTransaction())
 //             toast.s
 //         } catch (error) {
-            
+
 //         }
 //     }
 //     return (
@@ -905,13 +920,12 @@ function TransactionForm({ onCancel, onSuccess }) {
 
                                 onClick={() => setType(item)}
 
-                                className={`flex-1 py-2 rounded-md text-sm font-medium border capitalize ${
-                                    type === item
-                                    ? item === "inflow"
-                                    ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                                    : "bg-rose-50 text-rose-700 border-rose-200"
-                                    : "border-slate-200 text-slate-500"
-                                }`}
+                                className={`flex-1 py-2 rounded-md text-sm font-medium border capitalize ${type === item
+                                        ? item === "inflow"
+                                            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                            : "bg-rose-50 text-rose-700 border-rose-200"
+                                        : "border-slate-200 text-slate-500"
+                                    }`}
 
                             >
 
